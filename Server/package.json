@@ -1,0 +1,27 @@
+{
+  "name": "mean",
+  "version": "1.0.0",
+  "description": "Testing a new mean application",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yash Vibhandik",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.4.1",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "ejs": "^2.5.6",
+    "express": "^4.15.3",
+    "mongodb": "^2.2.28",
+    "mongoose": "^4.10.6",
+    "morgan": "^1.8.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "json-stringify-safe": "^5.0.1",
+    "nodemon": "^1.11.0"
+  }
+}

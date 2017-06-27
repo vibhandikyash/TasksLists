@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>-->
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+  <!--<link href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/fonts/roboto/Roboto-Medium.woff' rel='stylesheet' type='text/css'>-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">-->
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" type="text/css" href="../../../node_modules/dragula/dist/dragula.css">-->
+
+  <!--<link rel="stylesheet" type="text/css" href="../../assets/style.css">-->
+
+  <!--<title>Catalyst HTML Template</title>-->
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div style="text-align:center; margin-bottom:20px">
+        <button class="btn blue" href="#myModal" type="submit" data-toggle="modal" data-target="#myModal">Add New</button>
+      </div>
+    </div>
+    <div class="row" [dragula]='"columnbag"'>
+      <div class="col-md-4">
+        <div class="tm-black-translucent-bg minheight">
+          <div class="tm-logo-box">
+            <h1 class="handle">Open</h1>
+            <!--card-->
+            <div [dragula]='"bag"' [dragulaModel]='task' id="open" style="min-height:inherit">
+              <div class="row" id="{{task._id}}" style="margin:5px 5px" *ngFor="let task of allTask | taskPhaseFilter:_taskphases.open">
+                <div class="col-sm-12" id="'task._id'">
+                  <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                      <a class="pointcursor" (click)="getSingleTask(task._id)" data-toggle="modal" data-target="#myModal"><span class="card-title">{{task.title}}</span></a>
+                      <p style="overflow:hidden; text-overflow: ellipsis;white-space: nowrap; ">{{task.description}}</p>
+                      <!--<button class="btn btn-danger">Delete</button>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="(allTask | taskPhaseFilter:_taskphases.open).length <= 0">
+                <div class="col-sm-12" id="'task._id'">
+                  <div class="card dragspace">
+                    <div class="card-content white-text">
+                      <a class="pointcursor" (click)="getSingleTask(task._id)" data-toggle="modal" data-target="#myModal"><span class="card-title">Drag or Add your Task Here!</span></a>
+                      <!--<button class="btn btn-danger">Delete</button>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--card-->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tm-black-translucent-bg minheight" id="ongoing">
+          <div class="tm-logo-box">
+            <h1 class="handle">OnGoing</h1>
+            <!--card-->
+            <div [dragula]='"bag"' id="ongoing" [dragulaModel]='task'>
+              <div class="row" id="{{task._id}}" style="margin:5px 5px" *ngFor="let task of allTask | taskPhaseFilter:_taskphases.ongoing">
+                <div class="col-sm-12">
+                  <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                      <a class="pointcursor" (click)="getSingleTask(task._id)" data-toggle="modal" data-target="#myModal"><span class="card-title">{{task.title}}</span></a>
+                      <p style="overflow:hidden; text-overflow: ellipsis;white-space: nowrap; ">{{task.description}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="(allTask | taskPhaseFilter:_taskphases.ongoing).length <= 0">
+                <div class="col-sm-12" id="'task._id'">
+                  <div class="card dragspace">
+                    <div class="card-content white-text">
+                      <a class="pointcursor" (click)="resetCurrentTask()" data-toggle="modal" data-target="#myModal"><span class="card-title">Drag or Add your Task Here!</span></a>
+                      <!--<button class="btn btn-danger">Delete</button>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--card-->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 ">
+        <div class="tm-black-translucent-bg minheight">
+          <div class="tm-logo-box">
+            <h1 class="handle">Closed</h1>
+            <!--card-->
+            <div [dragula]='"bag"' id="closed" [dragulaModel]='task'>
+              <div class="row" id="{{task._id}}" style="margin:5px 5px" *ngFor="let task of allTask | taskPhaseFilter:_taskphases.closed">
+                <div class="col-sm-12">
+                  <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                      <a class="pointcursor" (click)="getSingleTask(task._id)" data-toggle="modal" data-target="#myModal"><span class="card-title">{{task.title}}</span></a>
+                      <p style="overflow:hidden; text-overflow: ellipsis;white-space: nowrap; ">{{task.description}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="(allTask | taskPhaseFilter:_taskphases.closed).length <= 0">
+                <div class="col-sm-12" id="'task._id'">
+                  <div class="card dragspace">
+                    <div class="card-content white-text">
+                      <a class="pointcursor" (click)="resetCurrentTask()" data-toggle="modal" data-target="#myModal"><span class="card-title">Drag or Add your Task Here!</span></a>
+                      <!--<button class="btn btn-danger">Delete</button>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--card-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" (click)="resetCurrentTask()">&times;</button>
+          <h4 class="modal-title">Add new Task</h4>
+        </div>
+        <form #form="ngForm" name="TaskForm">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="usr">Task Title:</label>
+              <input type="text" class="form-control" id="title" [(ngModel)]="currentTask.title" name="title" #title="ngModel" required
+              />
+              <div *ngIf="title.errors && (title.dirty || title.touched)" class="alert alert-danger" name="titlevalid">
+                <div [hidden]="!title.errors.required">
+                  Title is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="usr">Task Description:</label>
+              <input type="text" class="form-control" id="description" [(ngModel)]="currentTask.description" name="description" #description="ngModel"
+                required />
+              <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
+                <div [hidden]="!description.errors.required">
+                  Description is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="sel1">Select list:</label>
+              <select class="form-control" name="phaseSelect" [(ngModel)]="currentTask.phase" #phaseSelect="ngModel" required>
+              <option *ngFor="let phase of _taskphases | keys" [ngValue]='phase.key'>{{phase.value}}</option>
+              <!--<option [ngValue]='1'>Open</option>
+              <option [ngValue]='2'>OnGoing</option>
+              <option [ngValue]='3'>Closed</option>-->
+            </select>
+              <div *ngIf="phaseSelect.errors && (phaseSelect.dirty || phaseSelect.touched)" class="alert alert-danger" name="titlevalid">
+                <div [hidden]="!phaseSelect.errors.required">
+                  Select a phase
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal" (click)="SaveTask()" [disabled]='!form.valid'>Save</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="resetCurrentTask()">Close</button>
+            <!--{{currentTask.phase}}-->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <simple-notifications [options]="options"></simple-notifications>
+  <!--</div>
+</div>-->
+  <div class="text-center footer">
+    <div class="container">
+      Copyright &copy; <span class="tm-current-year">2017</span> Ashutec | Design: <a href="#" target="_parent" style="color:black">Yash</a>
+    </div>
+  </div>
+  <script>
+    // Write current year in copyright text.
+    document.getElementsByClassName("tm-current-year").value = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
